@@ -1,9 +1,7 @@
-import React from 'react'
+import ProductLayout from "@/app/components/products/ProductLayout"
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+const ProductsRouter = ()=>{
+  return <ProductLayout />
 }
 
-export default page
+export default ProductsRouter
