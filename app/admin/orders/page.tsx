@@ -1,9 +1,9 @@
-import React from 'react'
+import Orders from "@/app/components/orders/OrderLayout"
 
-const orders = () => {
+const OrdersRouter = ()=>{
   return (
-    <div>Orders</div>
+    <Orders />
   )
 }
 
-export default orders
+export default OrdersRouter

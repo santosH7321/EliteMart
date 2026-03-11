@@ -1,43 +1,37 @@
 <svg width="320" height="80" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
-  
-  <!-- Gradient -->
-  <defs>
-    <linearGradient id="eliteGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6366F1"/>
-      <stop offset="100%" stop-color="#8B5CF6"/>
-    </linearGradient>
-  </defs>
 
   <!-- Cart Icon -->
-  <g transform="translate(10,18)">
-    <rect x="0" y="0" width="36" height="22" rx="4" fill="url(#eliteGradient)" />
+  <g transform="translate(10,20)">
     
-    <!-- Cart handle -->
-    <line x1="-5" y1="-5" x2="6" y2="0" stroke="#6366F1" stroke-width="3" stroke-linecap="round"/>
+    <!-- Cart Basket -->
+    <rect x="0" y="0" width="36" height="22" rx="4" fill="#EF4444"/>
+    
+    <!-- Cart Handle -->
+    <line x1="-6" y1="-6" x2="6" y2="0" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/>
     
     <!-- Wheels -->
-    <circle cx="10" cy="28" r="4" fill="#374151"/>
-    <circle cx="28" cy="28" r="4" fill="#374151"/>
+    <circle cx="10" cy="28" r="4" fill="#111827"/>
+    <circle cx="28" cy="28" r="4" fill="#111827"/>
   </g>
 
   <!-- Brand Text -->
-  <text 
-    x="70" 
-    y="48" 
-    font-family="Poppins, Arial, sans-serif" 
-    font-size="32" 
-    font-weight="700" 
+  <text
+    x="70"
+    y="48"
+    font-family="Poppins, Arial, sans-serif"
+    font-size="32"
+    font-weight="700"
     fill="#111827">
     Elite
   </text>
 
-  <text 
-    x="150" 
-    y="48" 
-    font-family="Poppins, Arial, sans-serif" 
-    font-size="32" 
-    font-weight="700" 
-    fill="url(#eliteGradient)">
+  <text
+    x="150"
+    y="48"
+    font-family="Poppins, Arial, sans-serif"
+    font-size="32"
+    font-weight="700"
+    fill="#EF4444">
     Mart
   </text>
 
