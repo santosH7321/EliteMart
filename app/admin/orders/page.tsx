@@ -1,4 +1,4 @@
-import Orders from "@/app/components/orders/OrderLayout"
+import Orders from "@/app/components/admin/orders/OrderLayout"
 
 const OrdersRouter = ()=>{
   return (
