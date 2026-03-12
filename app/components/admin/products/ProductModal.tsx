@@ -24,7 +24,7 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
   }
 
   return (
-    <Modal open={open} onCancel={onClose} footer={null} centered maskClosable={false} width={680}
+    <Modal open={open} onCancel={onClose} footer={null} centered mask={{ closable: false }} width={680}
       style={{ borderRadius: 20, padding: 0, overflow: 'hidden' }}
       styles={{ mask: { backdropFilter: 'blur(4px)' } }}
     >
