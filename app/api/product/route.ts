@@ -24,8 +24,8 @@ export const POST = async (req: NextRequest) => {
     const payload = {
       title: body.get("title"),
       description: body.get("description"),
-      price: body.get("price"),
-      discount: body.get("discount"),
+      price: Number(body.get("price")),
+      discount: Number(body.get("discount")),
       image: uploaded.secure_url,
     };
 
@@ -39,9 +39,20 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
     try {
         await connectDB();
-        const products = await ProductModel.find();
-        return res.json(products);
+        const { searchParams } = new URL(req.url)
+        const slug = searchParams.get("slug")
+
+        if (slug) {
+            const product = await ProductModel.findOne({ slug })
+            if (!product)
+                return res.json({ message: "Product not found" }, { status: 404 })
+            return res.json(product)
+        }
+
+        const products = await ProductModel.find()
+        return res.json(products)
+
     } catch (err) {
-        return serverCatchError(err);
+        return serverCatchError(err)
     }
-};
+}
