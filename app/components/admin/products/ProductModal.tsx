@@ -1,6 +1,7 @@
 'use client'
 import { AppstoreOutlined, ArrowRightOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Form, Input, InputNumber, Modal, Upload, message } from 'antd'
+import axios from 'axios'
 import { Product, t } from './productData'
 
 type Props = {
@@ -16,15 +17,24 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
   const [form] = Form.useForm()
   const isEdit = !!editProduct
 
-  const handleSubmit = (values: any) => {
-    console.log(values)
-    message.success(isEdit ? 'Product updated!' : 'Product added!')
-    form.resetFields()
-    onClose()
+  const createProduct = async (values: any) => {
+    try {
+      values.image = values.image.file.originFileObj
+      const formData = new FormData()
+      for (let key in values) {
+        formData.append(key, values[key])
+      }
+      await axios.post("/api/product", formData)
+      message.success("Product added successfully!")
+      form.resetFields()
+      onClose()
+    } catch (err) {
+      message.error("Something went wrong!")
+    }
   }
 
   return (
-    <Modal open={open} onCancel={onClose} footer={null} centered mask={{ closable: false }} width={680}
+    <Modal open={open} onCancel={onClose} footer={null} centered maskClosable={false} width={680}
       style={{ borderRadius: 20, padding: 0, overflow: 'hidden' }}
       styles={{ mask: { backdropFilter: 'blur(4px)' } }}
     >
@@ -34,15 +44,19 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
             <AppstoreOutlined style={{ color: t.accent, fontSize: 16 }} />
           </div>
           <div>
-            <h2 className="text-base font-bold" style={{ color: t.textPrimary }}>{isEdit ? 'Edit Product' : 'Add New Product'}</h2>
-            <p className="text-xs" style={{ color: t.textMuted }}>{isEdit ? 'Update product details below' : 'Fill in the details to list a new product'}</p>
+            <h2 className="text-base font-bold" style={{ color: t.textPrimary }}>
+              {isEdit ? 'Edit Product' : 'Add New Product'}
+            </h2>
+            <p className="text-xs" style={{ color: t.textMuted }}>
+              {isEdit ? 'Update product details below' : 'Fill in the details to list a new product'}
+            </p>
           </div>
         </div>
       </div>
 
       <div className="px-8 py-6">
-        <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={editProduct ?? {}}>
-          <Form.Item label={<span style={labelStyle}>Product Name</span>} name="name" rules={[{ required: true }]}>
+        <Form form={form} layout="vertical" onFinish={createProduct} initialValues={editProduct ?? {}}>
+          <Form.Item label={<span style={labelStyle}>Product Name</span>} name="title" rules={[{ required: true }]}>
             <Input size="large" placeholder="e.g. Men's Blue Jeans" style={inputStyle} />
           </Form.Item>
 
@@ -53,7 +67,7 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
             <Form.Item label={<span style={labelStyle}>Original Price (₹)</span>} name="original" rules={[{ required: true, type: 'number' }]}>
               <InputNumber size="large" placeholder="4000" className="w-full!" style={inputStyle} />
             </Form.Item>
-            <Form.Item label={<span style={labelStyle}>Stock (qty)</span>} name="stock" rules={[{ required: true, type: 'number' }]}>
+            <Form.Item label={<span style={labelStyle}>Stock (qty)</span>} name="quantity" rules={[{ required: true, type: 'number' }]}>
               <InputNumber size="large" placeholder="20" className="w-full!" style={inputStyle} />
             </Form.Item>
           </div>
@@ -62,9 +76,14 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
             <Input.TextArea rows={4} placeholder="Write a short product description..." style={{ ...inputStyle, resize: 'none' }} />
           </Form.Item>
 
-          <Form.Item name="image">
-            <Upload.Dragger accept="image/*" showUploadList={false}
-              style={{ borderRadius: 12, borderColor: 'rgba(239,68,68,0.25)', background: t.accentLight }}>
+          <Form.Item name="image" rules={[{ required: true, message: 'Please upload an image' }]}>
+            <Upload.Dragger
+              accept="image/*"
+              maxCount={1}
+              beforeUpload={() => false}
+              showUploadList={true}
+              style={{ borderRadius: 12, borderColor: 'rgba(239,68,68,0.25)', background: t.accentLight }}
+            >
               <div className="py-4 flex flex-col items-center gap-2">
                 <UploadOutlined style={{ fontSize: 24, color: t.accent }} />
                 <p className="text-sm font-medium" style={{ color: t.textPrimary }}>
