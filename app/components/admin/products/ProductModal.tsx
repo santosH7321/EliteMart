@@ -18,20 +18,29 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
   const isEdit = !!editProduct
 
   const createProduct = async (values: any) => {
-    try {
-      values.image = values.image.file.originFileObj
-      const formData = new FormData()
-      for (let key in values) {
-        formData.append(key, values[key])
-      }
-      await axios.post("/api/product", formData)
-      message.success("Product added successfully!")
-      form.resetFields()
-      onClose()
-    } catch (err) {
-      message.error("Something went wrong!")
+  try {
+    const file = values.image?.file 
+
+    if (!file) {
+      message.error("Please select an image first!")
+      return
     }
+
+    const formData = new FormData()
+    formData.append("image", file)
+    formData.append("title", values.title)
+    formData.append("description", values.description)
+    formData.append("price", values.price)
+    formData.append("discount", values.discount ?? 0)
+
+    await axios.post("/api/product", formData)
+    message.success("Product added successfully!")
+    form.resetFields()
+    onClose()
+  } catch (err) {
+    message.error("Something went wrong!")
   }
+}
 
   return (
     <Modal open={open} onCancel={onClose} footer={null} centered maskClosable={false} width={680}
