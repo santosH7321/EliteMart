@@ -8,42 +8,44 @@ type Props = {
   open: boolean
   onClose: () => void
   editProduct: Product | null
+  onSuccess: () => void 
 }
 
 const labelStyle = { fontSize: 13, fontWeight: 600, color: t.textPrimary }
 const inputStyle = { borderRadius: 10, borderColor: 'rgba(15,23,42,0.12)', fontSize: 14 }
 
-const ProductModal = ({ open, onClose, editProduct }: Props) => {
+const ProductModal = ({ open, onClose, editProduct, onSuccess }: Props) => {
   const [form] = Form.useForm()
   const isEdit = !!editProduct
 
   const createProduct = async (values: any) => {
-  try {
-    const file = values.image?.file 
+    try {
+      const file = values.image?.file
+      if (!file) {
+        message.error("Please select an image first!")
+        return
+      }
 
-    if (!file) {
-      message.error("Please select an image first!")
-      return
+      const formData = new FormData()
+      formData.append("image", file)
+      formData.append("title", values.title)
+      formData.append("description", values.description)
+      formData.append("price", values.price)
+      formData.append("discount", values.discount ?? 0)
+      formData.append("quantity", values.quantity ?? 1)
+
+      await axios.post("/api/product", formData)
+      message.success("Product added successfully!")
+      form.resetFields()
+      onSuccess()
+      onClose()
+    } catch (err) {
+      message.error("Something went wrong!")
     }
-
-    const formData = new FormData()
-    formData.append("image", file)
-    formData.append("title", values.title)
-    formData.append("description", values.description)
-    formData.append("price", values.price)
-    formData.append("discount", values.discount ?? 0)
-
-    await axios.post("/api/product", formData)
-    message.success("Product added successfully!")
-    form.resetFields()
-    onClose()
-  } catch (err) {
-    message.error("Something went wrong!")
   }
-}
 
   return (
-    <Modal open={open} onCancel={onClose} footer={null} centered maskClosable={false} width={680}
+    <Modal open={open} onCancel={onClose} footer={null} centered mask={{ closable: false }} width={680}
       style={{ borderRadius: 20, padding: 0, overflow: 'hidden' }}
       styles={{ mask: { backdropFilter: 'blur(4px)' } }}
     >
@@ -85,14 +87,9 @@ const ProductModal = ({ open, onClose, editProduct }: Props) => {
             <Input.TextArea rows={4} placeholder="Write a short product description..." style={{ ...inputStyle, resize: 'none' }} />
           </Form.Item>
 
-          <Form.Item name="image" rules={[{ required: true, message: 'Please upload an image' }]}>
-            <Upload.Dragger
-              accept="image/*"
-              maxCount={1}
-              beforeUpload={() => false}
-              showUploadList={true}
-              style={{ borderRadius: 12, borderColor: 'rgba(239,68,68,0.25)', background: t.accentLight }}
-            >
+          <Form.Item name="image" rules={[{ required: !isEdit, message: 'Please upload an image' }]}>
+            <Upload.Dragger accept="image/*" maxCount={1} beforeUpload={() => false} showUploadList={true}
+              style={{ borderRadius: 12, borderColor: 'rgba(239,68,68,0.25)', background: t.accentLight }}>
               <div className="py-4 flex flex-col items-center gap-2">
                 <UploadOutlined style={{ fontSize: 24, color: t.accent }} />
                 <p className="text-sm font-medium" style={{ color: t.textPrimary }}>

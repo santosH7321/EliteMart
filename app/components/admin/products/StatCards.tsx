@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
-import { t, mockProducts } from './productData'
+import { t } from './productData'
+import type { Product } from './productData'
 
 const StatCard = ({ label, value, sub, delay }: { label: string; value: string; sub: string; delay: number }) => (
   <motion.div
@@ -15,35 +16,45 @@ const StatCard = ({ label, value, sub, delay }: { label: string; value: string; 
   </motion.div>
 )
 
-const lowStock = mockProducts.filter(p => p.stock <= 5).length
+const StatCards = ({ products }: { products: Product[] }) => {
 
-const StatCards = () => (
-  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-    <StatCard 
-        label="Total Products" 
-        value={String(mockProducts.length)} 
-        sub="Listed items"      
-        delay={0}    
-    />
-    <StatCard 
-        label="Low Stock"      
-        value={String(lowStock)}           
-        sub="Need restocking"  
-        delay={0.07} 
-    />
-    <StatCard 
-        label="Categories"     
-        value="8"                           
-        sub="Active categories" 
-        delay={0.14} 
-    />
-    <StatCard 
-        label="Total Value"    
-        value="₹1.2L"                       
-        sub="Inventory worth"   
-        delay={0.21} 
-    />
-  </div>
-)
+  const lowStock = products.filter(p => p.stock <= 5).length
+
+  const totalValue = products.reduce((sum, p) => sum + p.price, 0)
+
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <StatCard 
+        label="Total Products"
+        value={String(products.length)}
+        sub="Listed items"
+        delay={0}
+      />
+
+      <StatCard 
+        label="Low Stock"
+        value={String(lowStock)}
+        sub="Need restocking"
+        delay={0.07}
+      />
+
+      <StatCard 
+        label="Categories"
+        value="8"
+        sub="Active categories"
+        delay={0.14}
+      />
+
+      <StatCard 
+        label="Total Value"
+        value={`₹${totalValue}`}
+        sub="Inventory worth"
+        delay={0.21}
+      />
+
+    </div>
+  )
+}
 
 export default StatCards

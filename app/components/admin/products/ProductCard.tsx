@@ -1,3 +1,5 @@
+"use client"
+
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { motion } from 'motion/react'
 import Image from 'next/image'
@@ -24,9 +26,9 @@ const ProductCard = ({ product, index, onEdit, onDelete }: Props) => {
       style={{ background: t.cardBg, border: `1px solid ${t.border}`, boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}
     >
       <div className="relative w-full h-45 overflow-hidden" style={{ background: '#f1f5f9' }}>
-        <Image src="/images/product.png" fill alt={product.name} style={{ objectFit: 'cover', transition: 'transform 0.4s ease' }} className="hover:scale-105" />
+        <Image src={product.image} fill alt={product.title} style={{ objectFit: 'cover', transition: 'transform 0.4s ease' }} className="hover:scale-105" />
         <div className="absolute top-3 left-3 rounded-lg px-2 py-1 text-xs font-bold" style={{ background: t.accent, color: '#fff' }}>
-          -{discount}%
+          -{product.discount}%
         </div>
         <div className="absolute top-3 right-3 rounded-lg px-2 py-1 text-xs font-semibold"
           style={{ background: isLowStock ? 'rgba(239,68,68,0.12)' : 'rgba(22,163,74,0.10)', color: isLowStock ? '#ef4444' : '#16a34a' }}>
@@ -40,12 +42,14 @@ const ProductCard = ({ product, index, onEdit, onDelete }: Props) => {
             style={{ background: t.accentLight, color: t.accent }}>
             {product.category}
           </span>
-          <p className="mt-2 text-sm font-semibold leading-tight" style={{ color: t.textPrimary }}>{product.name}</p>
+          <p className="mt-2 text-sm font-semibold leading-tight" style={{ color: t.textPrimary }}>{product.title}</p>
         </div>
 
         <div className="flex items-baseline gap-2">
-          <span className="text-base font-bold" style={{ color: t.textPrimary }}>₹{product.price.toLocaleString()}</span>
-          <span className="text-xs line-through" style={{ color: t.textMuted }}>₹{product.original.toLocaleString()}</span>
+          <span className="text-base font-bold" style={{ color: t.textPrimary }}>
+            ₹{product.price?.toLocaleString()}
+          </span>
+          <span className="text-xs line-through" style={{ color: t.textMuted }}>₹{product.original?.toLocaleString()}</span>
         </div>
 
         <div className="flex gap-2 mt-auto pt-2" style={{ borderTop: `1px solid ${t.border}` }}>
@@ -54,7 +58,7 @@ const ProductCard = ({ product, index, onEdit, onDelete }: Props) => {
             style={{ background: 'rgba(22,163,74,0.08)', color: '#16a34a', border: 'none', cursor: 'pointer' }}>
             <EditOutlined /> Edit
           </motion.button>
-          <motion.button whileTap={{ scale: 0.95 }} onClick={() => onDelete(product.id)}
+          <motion.button whileTap={{ scale: 0.95 }} onClick={() => onDelete(product._id)}
             className="flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold"
             style={{ background: t.accentLight, color: t.accent, border: 'none', cursor: 'pointer' }}>
             <DeleteOutlined /> Delete
