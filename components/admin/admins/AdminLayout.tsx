@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { t } from './tokens';
-import ChildrenInterface from '@/app/interface/children.interface';
+import ChildrenInterface from '@/interface/children.interface';
 
 const AdminLayout: FC<ChildrenInterface> = ({ children }) => {
   const pathname = usePathname();

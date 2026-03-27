@@ -1,8 +1,8 @@
-import { connectDB } from "@/app/lib/db";
-import serverCatchError from "@/app/lib/server-catch-error";
+import { connectDB } from "@/lib/db";
+import serverCatchError from "@/lib/server-catch-error";
 import { NextRequest, NextResponse as res } from "next/server";
-import ProductModel from "@/app/models/product.model";
-import SlugInterface from "@/app/interface/slug.interface";
+import ProductModel from "@/models/product.model";
+import SlugInterface from "@/interface/slug.interface";
 
 export const GET = async (req: NextRequest, context: SlugInterface)=>{
     try {

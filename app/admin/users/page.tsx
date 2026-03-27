@@ -1,4 +1,4 @@
-import UserLayout from "@/app/components/admin/users/UserLayout"
+import UserLayout from "@/components/admin/users/UserLayout"
 
 const UsersRouter = ()=>{
     return <UserLayout />

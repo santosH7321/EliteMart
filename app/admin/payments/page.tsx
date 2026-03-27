@@ -1,4 +1,4 @@
-import PaymentLayout from "@/app/components/admin/payments/PaymentLayout"
+import PaymentLayout from "@/components/admin/payments/PaymentLayout"
 
 const PaymentsRouter = ()=>{
     return (

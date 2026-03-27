@@ -1,8 +1,9 @@
+import Products from "../components/Products"
 
-const Home = () => {
+const HomeRouter = () => {
   return (
-    <div>Home</div>
+    <Products />
   )
 }
 
-export default Home
+export default HomeRouter

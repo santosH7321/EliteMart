@@ -1,4 +1,4 @@
-import ProductLayout from "@/app/components/admin/products/ProductLayout"
+import ProductLayout from "@/components/admin/products/ProductLayout"
 
 const ProductsRouter = ()=>{
   return <ProductLayout />

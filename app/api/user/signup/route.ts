@@ -1,7 +1,7 @@
-import { connectDB } from "@/app/lib/db";
-import serverCatchError from "@/app/lib/server-catch-error";
+import { connectDB } from "@/lib/db";
+import serverCatchError from "@/lib/server-catch-error";
 import { NextRequest, NextResponse as res } from "next/server";
-import UserModel from "@/app/models/user.model";
+import UserModel from "@/models/user.model";
 
 export const POST = async (req: NextRequest) => {
     try {
